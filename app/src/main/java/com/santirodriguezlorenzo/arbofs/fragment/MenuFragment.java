@@ -25,8 +25,12 @@ import android.widget.ScrollView;
 
 import com.santirodriguezlorenzo.arbofs.R;
 import com.santirodriguezlorenzo.arbofs.activity.CalendarActivity;
+import com.santirodriguezlorenzo.arbofs.activity.ContactoActivity;
+import com.santirodriguezlorenzo.arbofs.activity.ContributorsActivity;
 import com.santirodriguezlorenzo.arbofs.activity.MainActivity;
 import com.santirodriguezlorenzo.arbofs.activity.RatingActivity;
+import com.santirodriguezlorenzo.arbofs.activity.SiguenosActivity;
+import com.santirodriguezlorenzo.arbofs.activity.TemplateActivity;
 
 /**
  * Created by Santi on 26/08/2015.
@@ -288,7 +292,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                 identifier = MainActivity.INIT_IDENTIFIER;
                 break;
             case R.id.menu_template:
-                //startActivity(new Intent(getActivity(), CategoriasActivity.class));
+                startActivity(new Intent(getActivity(), TemplateActivity.class));
                 break;
             case R.id.menu_rating:
                 startActivity(new Intent(getActivity(), RatingActivity.class));
@@ -297,16 +301,16 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), CalendarActivity.class));
                 break;
             case R.id.menu_follow_us:
-                //startActivity(new Intent(getActivity(), SiguenosActivity.class));
+                startActivity(new Intent(getActivity(), SiguenosActivity.class));
                 break;
             case R.id.menu_contributors:
-
+                startActivity(new Intent(getActivity(), ContributorsActivity.class));
                 break;
             case R.id.menu_who_we_are:
 
                 break;
             case R.id.menu_contact:
-
+                startActivity(new Intent(getActivity(), ContactoActivity.class));
                 break;
             default:
                 break;

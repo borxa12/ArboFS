@@ -3,8 +3,18 @@
     <color name="primary">#ACD024</color>
     <color name="primary_dark">#9abb20</color>
     <color name="primary_light">#80ACD024</color>
+    <color name="hint_grey">#ddd</color>
     <color name="grey_dark">#999</color>
     <color name="text_grey">#333333</color>
     <color name="white">#ffffff</color>
+    <color name="facebook">#3e60aa</color>
+    <color name="facebook_dark">#2a4480</color>
+    <color name="twitter">#35aadf</color>
+    <color name="twitter_dark">#1896d0</color>
+    <color name="instagram">#6c3f2f</color>
+    <color name="instagram_dark">#50362d</color>
+    <color name="grey">#E5E6EB</color>
+    <color name="grey_light">#F3F4F9</color>
+    <color name="grey_pressed">#999999</color>
 
 </resources>

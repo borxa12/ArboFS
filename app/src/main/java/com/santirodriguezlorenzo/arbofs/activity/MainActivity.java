@@ -1,5 +1,9 @@
 package com.santirodriguezlorenzo.arbofs.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -8,10 +12,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.santirodriguezlorenzo.arbofs.R;
+import com.santirodriguezlorenzo.arbofs.config.Constants;
+import com.santirodriguezlorenzo.arbofs.db.ArboFsLocalUpdater;
 import com.santirodriguezlorenzo.arbofs.fragment.ChangeFragment;
 import com.santirodriguezlorenzo.arbofs.fragment.InitFragment;
 import com.santirodriguezlorenzo.arbofs.fragment.MenuFragment;
@@ -22,6 +29,8 @@ public class MainActivity extends ActionBarActivity implements ChangeFragment {
 
     private MenuFragment mNavigationDrawerFragment;
     private CharSequence mTitle;
+
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,19 @@ public class MainActivity extends ActionBarActivity implements ChangeFragment {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        mProgressDialog = new ProgressDialog(MainActivity.this);
+        mProgressDialog.setMessage("Actualizando dicionario");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(true);
+        mProgressDialog.setMax(100);
+
+        SharedPreferences preferences = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE);
+        boolean isDatabaseCreate = preferences.getBoolean(Constants.DB_CREATE, false);
+        if (!isDatabaseCreate){
+            updateDatabase();
+        }
 
 
         mNavigationDrawerFragment = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -80,5 +102,15 @@ public class MainActivity extends ActionBarActivity implements ChangeFragment {
                 break;
 
         }
+    }
+
+    private void updateDatabase() {
+            try {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                new ArboFsLocalUpdater(this).execute();
+            }catch (Exception e) {
+                Log.e("Main", e.getMessage());
+            }
+
     }
 }

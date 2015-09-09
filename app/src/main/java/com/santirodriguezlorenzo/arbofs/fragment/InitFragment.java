@@ -2,6 +2,7 @@ package com.santirodriguezlorenzo.arbofs.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -23,7 +24,11 @@ import android.widget.Toast;
 
 import com.santirodriguezlorenzo.arbofs.R;
 import com.santirodriguezlorenzo.arbofs.activity.CalendarActivity;
+import com.santirodriguezlorenzo.arbofs.activity.ContactoActivity;
+import com.santirodriguezlorenzo.arbofs.activity.ContributorsActivity;
 import com.santirodriguezlorenzo.arbofs.activity.RatingActivity;
+import com.santirodriguezlorenzo.arbofs.activity.TemplateActivity;
+import com.santirodriguezlorenzo.arbofs.config.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -85,6 +90,8 @@ public class InitFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
         btnTemplate = (View) getView().findViewById(R.id.btn_template);
         btnRating = (View) getView().findViewById(R.id.btn_rating);
         btnCalendar = (View) getView().findViewById(R.id.btn_calendar);
@@ -94,7 +101,7 @@ public class InitFragment extends Fragment {
         btnTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Template", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), TemplateActivity.class));
             }
         });
         btnRating.setOnClickListener(new View.OnClickListener() {
@@ -112,13 +119,13 @@ public class InitFragment extends Fragment {
         btnContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "btnContact", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), ContactoActivity.class));
             }
         });
         btnColaborators.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "btnColaborators", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), ContributorsActivity.class));
             }
         });
 

@@ -3,6 +3,8 @@
     package="com.santirodriguezlorenzo.arbofs" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +31,22 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ContributorsActivity"
+            android:label="@string/title_activity_contributors" >
+        </activity>
+        <activity
+            android:name=".activity.SiguenosActivity"
+            android:label="@string/title_activity_siguenos" >
+        </activity>
+        <activity
+            android:name=".activity.ContactoActivity"
+            android:label="@string/title_activity_contacto" >
+        </activity>
+        <activity
+            android:name=".activity.TemplateActivity"
+            android:label="@string/title_activity_template" >
         </activity>
     </application>
 
