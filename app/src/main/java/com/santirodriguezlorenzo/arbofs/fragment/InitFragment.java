@@ -1,26 +1,12 @@
 package com.santirodriguezlorenzo.arbofs.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.santirodriguezlorenzo.arbofs.R;
 import com.santirodriguezlorenzo.arbofs.activity.CalendarActivity;
@@ -28,13 +14,6 @@ import com.santirodriguezlorenzo.arbofs.activity.ContactoActivity;
 import com.santirodriguezlorenzo.arbofs.activity.ContributorsActivity;
 import com.santirodriguezlorenzo.arbofs.activity.RatingActivity;
 import com.santirodriguezlorenzo.arbofs.activity.TemplateActivity;
-import com.santirodriguezlorenzo.arbofs.config.Constants;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Santi on 26/08/2015.

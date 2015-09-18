@@ -13,7 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.santirodriguezlorenzo.arbofs.R;
 public class RatingActivity extends ActionBarActivity{
 
     private WebView webViewRating;
+    private RelativeLayout loadingContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,17 +39,33 @@ public class RatingActivity extends ActionBarActivity{
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.rating);
 
+        loadingContent = (RelativeLayout) findViewById(R.id.loading_content);
         webViewRating = (WebView) findViewById(R.id.web_view_rating);
+
         webViewRating.getSettings().setJavaScriptEnabled(true);
         webViewRating.getSettings().setLoadWithOverviewMode(true);
         webViewRating.getSettings().setUseWideViewPort(true);
+        webViewRating.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webViewRating.setScrollbarFadingEnabled(false);
 
         try {
             // load the url
-            webViewRating.loadUrl("http://www.ligametropolitana.com/division.php?cat=306");
+            webViewRating.loadUrl("http://www.ligametropolitana.com/division.php?cat=344");
+            loadingContent.setVisibility(View.GONE);
+            webViewRating.setVisibility(View.VISIBLE);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.webViewRating.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url){
+                Log.e("URL", url);
+                view.loadUrl(url);
+                return true;
+            }
+        });
+
 
     }
 

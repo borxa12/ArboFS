@@ -16,5 +16,6 @@
     <color name="grey">#E5E6EB</color>
     <color name="grey_light">#F3F4F9</color>
     <color name="grey_pressed">#999999</color>
+    <color name="grey_text">#757575</color>
 
 </resources>

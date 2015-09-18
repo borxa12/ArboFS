@@ -22,14 +22,11 @@
     <string name="twitter">Twitter</string>
     <string name="Instagram">Instagram</string>
     <string name="title_activity_contacto">ContactoActivity</string>
-    <string name="subject">Asunto</string>
-    <string name="message">Mensaje</string>
-    <string name="send">Enviar</string>
-    <string name="send_email">Enviar email...</string>
-    <string name="no_clients_email_installed">No tienes clientes email instalados.</string>
-    <string name="error_empty_message">El campo mensaje no puede estar vacío</string>
-    <string name="error_empty_subject">El campo subject no puede estar vacío</string>
-    <string name="see_map">Ver mapa</string>
-    <string name="navegation">Como llegar</string>
     <string name="title_activity_template">TemplateActivity</string>
+    <string name="title_activity_player">PlayerActivity</string><string name="error_no_location">No se ha podido obtener tu ubicación. Asegúrate de que tienes habilitada esta opción.</string>
+    <string name="search">Buscar</string>
+    <string name="search_hint">Buscar jugadores</string>
+    <string name="txt_no_results">No se han encontrado resultados para tu búsqueda</string>
+    <string name="contactanos">Contáctanos</string>
+    <string name="encuentranos">Encuéntranos</string>
 </resources>

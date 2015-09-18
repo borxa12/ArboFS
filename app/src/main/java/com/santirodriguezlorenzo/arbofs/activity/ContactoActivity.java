@@ -1,25 +1,49 @@
 package com.santirodriguezlorenzo.arbofs.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.santirodriguezlorenzo.arbofs.R;
+
+import java.io.IOException;
+import java.util.Date;
 
 public class ContactoActivity extends AppCompatActivity {
 
-    private String message, subject;
-    private EditText editTextMessage,editTextSubject;
-    private LinearLayout btnSend;
+    // Vista
+    private GoogleMap mMap;
+    private CardView cardContact;
+    private CardView cardDirections;
+
+    //Location
+    private LocationManager mlocManager;
+    private MyLocationListener mlocListener;
+    private Location myLocation;
+    private Location lastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,43 +58,40 @@ public class ContactoActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.contact);
 
-        editTextMessage = (EditText) findViewById(R.id.edit_text_message);
-        editTextSubject = (EditText) findViewById(R.id.edit_text_subject);
-        btnSend = (LinearLayout) findViewById(R.id.btn_send);
+        getMyLocation();
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
+        cardContact = (CardView) findViewById(R.id.card_contact);
+        cardDirections = (CardView) findViewById(R.id.card_directions);
+
+        cardContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                message = editTextMessage.getText().toString();
-                subject = editTextSubject.getText().toString();
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                        "mailto", "muebles2000fs@gmail.com", null));
+                //startActivity(Intent.createChooser(emailIntent, getText(R.string.send_email)));
+                startActivity(emailIntent);
+            }
+        });
 
-                if(!message.isEmpty() || !subject.isEmpty()){
-                    Intent i = new Intent(Intent.ACTION_SEND);
-                    i.setType("message/rfc822");
-                    i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"muebles2000fs@gmail.com"});
-                    i.putExtra(Intent.EXTRA_SUBJECT, subject);
-                    i.putExtra(Intent.EXTRA_TEXT   , message);
-                    try {
-                        startActivity(Intent.createChooser(i, getText(R.string.send_email)));
-                    } catch (android.content.ActivityNotFoundException ex) {
-                        Toast.makeText(ContactoActivity.this, getText(R.string.no_clients_email_installed), Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    if(message.isEmpty()){
-                        editTextMessage.setError(getText(R.string.error_empty_message));
-                    }
-                    if(subject.isEmpty()){
-                        editTextSubject.setError(getText(R.string.error_empty_subject));
-                    }
+        cardDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LatLng contentPosition = new LatLng(42.108221, -8.303280);
+                if(myLocation!=null) {
+                    LatLng myPosition = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+                    getDirections(myPosition, contentPosition);
+
+                }
+                else{
+                    Toast.makeText(ContactoActivity.this, R.string.error_no_location, Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_contacto, menu);
         return true;
     }
 
@@ -81,14 +102,143 @@ public class ContactoActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.action_location:
-                Toast.makeText(ContactoActivity.this, "Ver mapa", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.action_navegation:
-                Toast.makeText(ContactoActivity.this, "Como llegar", Toast.LENGTH_SHORT).show();
-                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
+
+    public void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null)
+                setUpMap();
+        }
+    }
+
+    private void setUpMap() {
+        mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setAllGesturesEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(false);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        MarkerOptions markerOptions = new MarkerOptions()
+                    .position(new LatLng(42.108221, -8.303280))
+                .title("Pabellón municipal de Arbo");
+        mMap.addMarker(markerOptions);
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(42.108221,-8.303280), 15);
+        mMap.animateCamera(cu);
+
+    }
+
+
+    private void axustarBBox(LatLngBounds.Builder builder, int padding, int zoom) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(builder.build(), metrics.widthPixels, metrics.heightPixels, padding);
+        mMap.moveCamera(cameraUpdate);
+
+        if (mMap.getCameraPosition().zoom > zoom) {
+            cameraUpdate = CameraUpdateFactory.zoomTo(zoom);
+            mMap.moveCamera(cameraUpdate);
+        }
+    }
+
+    private void getDirections(LatLng fromPosition, LatLng toPosition){
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                Uri.parse("http://maps.google.com/maps?saddr=" + fromPosition.latitude + "," + fromPosition.longitude + "&daddr=" + toPosition.latitude + "," + toPosition.longitude));
+        startActivity(intent);
+
+
+    }
+
+    private void getMyLocation(){
+        mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        mlocListener = new MyLocationListener();
+        if(mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            lastLocation = mlocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Date now = new Date();
+            if(lastLocation!=null && lastLocation.getTime()+(1*5*60*1000)>now.getTime()	){
+                myLocation = lastLocation;
+            }
+            else{
+                //mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, (3*60*1000), 0, mlocListener);
+                //mlocManager.requestLocationUpdates( LocationManager.GPS_PROVIDER,0,0,  mlocListener);
+
+            }
+        }
+        else{
+            //if(mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)!=null){
+            lastLocation = mlocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            Date now = new Date();
+            if(lastLocation!=null && lastLocation.getTime()+(1*5*60*1000)>now.getTime()	){
+                myLocation = lastLocation;
+            }
+            else{
+                //mlocManager.requestLocationUpdates( LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+
+                //mlocManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, mlocListener, null);
+            }
+            //}
+        }
+
+        if(myLocation==null){
+            mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,  mlocListener);
+            mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mlocListener);
+        }
+    }
+
+    private class MyLocationListener  implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location location) {
+            if(location != null){
+                mlocManager.removeUpdates(mlocListener);
+                myLocation = location;
+
+
+            }
+        }
+
+        @Override
+        public void onProviderDisabled(String arg0) {
+
+
+        }
+
+        @Override
+        public void onProviderEnabled(String arg0) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+            // TODO Auto-generated method stub
+
+        }
+
+    }
+
+    @Override
+    protected void onStop (){
+        super.onStop();
+        mlocManager.removeUpdates(mlocListener);
+    }
+
+    @Override
+    protected void onDestroy (){
+        super.onDestroy();
+        mlocManager.removeUpdates(mlocListener);
+    }
+
 }

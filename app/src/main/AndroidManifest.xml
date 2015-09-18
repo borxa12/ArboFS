@@ -3,14 +3,27 @@
     package="com.santirodriguezlorenzo.arbofs" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
+        android:name=".application.ArboFSApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/MyTheme" >
+        android:theme="@style/MyTheme"
+        >
+
+        <!-- Google Maps Fragment API Key Data -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyARme-e244Sxmr0T9TaVE4iNcU5LfozZZo" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name" >
@@ -25,7 +38,8 @@
         </activity>
         <activity
             android:name=".activity.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/TransparentStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,6 +61,10 @@
         <activity
             android:name=".activity.TemplateActivity"
             android:label="@string/title_activity_template" >
+        </activity>
+        <activity
+            android:name=".activity.PlayerActivity"
+            android:label="@string/title_activity_player" >
         </activity>
     </application>
 

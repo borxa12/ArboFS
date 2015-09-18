@@ -19,6 +19,9 @@ public class ArboFsSQLHelper extends SQLiteOpenHelper {
 
     private SQLiteDatabase myDataBase;
 
+    public static final String TABLE_NAME_PLAYERS = "players";
+    public static final String COL_NOME = "name";
+
     private final Context myContext;
 
     /**
@@ -57,10 +60,20 @@ public class ArboFsSQLHelper extends SQLiteOpenHelper {
         }
     }
 
+    public SQLiteDatabase getDatabase(){
+        myDataBase = getWritableDatabase();
+        return myDataBase;
+    }
+
     public Cursor loadAllPlayers() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM players ORDER BY _id ASC", null);
         return c;
+    }
+
+    public Cursor loadPlayersByName(String name){
+        Cursor cursor = getDatabase().rawQuery("SELECT * FROM " +  TABLE_NAME_PLAYERS + " p WHERE p." + COL_NOME + " like '%" + name + "%'", null);
+        return cursor;
     }
 
 }

@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context="com.santirodriguezlorenzo.arbofs.activity.ContributorsActivity">
 
     <android.support.v7.widget.Toolbar
@@ -13,7 +12,8 @@
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:theme="@style/ToolbarColoredBackArrow"/>
+        app:theme="@style/ToolbarColoredBackArrow"
+        android:elevation="4dp"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -21,27 +21,71 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/logo"
-                android:scaleType="centerCrop"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:src="@drawable/agarimo"
-                android:scaleType="centerCrop"/>
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:src="@drawable/logo_eroski"
-                android:scaleType="centerCrop"/>
+
 
             <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:src="@drawable/muebles_2000"
+                android:scaleType="fitXY"/>
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:src="@drawable/rabelo"
-                android:scaleType="centerCrop"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="150dp"
+                    android:src="@drawable/agarimo"
+                    android:scaleType="fitXY"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="150dp"
+                    android:src="@drawable/rabelo"
+                    android:scaleType="fitXY"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="150dp"
+                    android:src="@drawable/restaurante_vila"
+                    android:scaleType="fitXY"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="150dp"
+                    android:src="@drawable/a_fonte"
+                    android:scaleType="fitXY"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="150dp"
+                    android:src="@drawable/eroski"
+                    android:scaleType="fitXY"/>
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="150dp"
+                    android:src="@drawable/rabelo"
+                    android:scaleType="fitXY"
+                    android:visibility="invisible"/>
+            </LinearLayout>
+
+
+
+
         </LinearLayout>
     </ScrollView>
 

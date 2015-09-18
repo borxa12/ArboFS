@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     tools:context="com.santirodriguezlorenzo.arbofs.activity.TemplateActivity">
 
     <android.support.v7.widget.Toolbar
@@ -12,12 +11,24 @@
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:theme="@style/ToolbarColoredBackArrow"/>
+        app:theme="@style/ToolbarColoredBackArrow"
+        android:elevation="4dp"/>
 
     <ListView
         android:id="@+id/list_players"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/action_bar"/>
+
+    <TextView
+        android:id="@+id/txt_no_results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No se han encontrado resultados para tu busqueda"
+        android:textColor="@color/grey_text"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:layout_below="@+id/action_bar"
+        android:visibility="gone"/>
 
 </RelativeLayout>
